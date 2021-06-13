@@ -1,4 +1,4 @@
-# emwcon-demo
+# mediawiki-automation
 Files needed for a demo of deploying mediawiki to kubernetes
 
 ## Prerequisites
