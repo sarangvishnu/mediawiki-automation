@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    labels:
+        app: mediawiki
+    name: mediawiki
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: mediawiki
+    template:
+        metadata:
+            labels:
+                app: mediawiki
+        spec:
+            containers:
+                - image: $MEDIAWIKI_IMAGE_REPLACE_ME
+                  imagePullPolicy: Always
+                  name: mediawiki
+                  ports:
+                      - containerPort: 8080
+                  command: ["/bin/bash", "-c"]
+                  args: ["php-fpm7.2 -D && /usr/sbin/apache2ctl -D FOREGROUND"]
+                  resources:
+                    requests:
+                      cpu: 100m
+                      memory: 100Mi
+                    limits:
+                      cpu: 1.2
+                      memory: 500Mi
+                  env:
+                    - name: WIKI_NAME 
+                      value: "My Wiki"
+                    - name: WIKI_ADMIN
+                      value: "Admin"
+                    - name: DB_NAME
+                      value: "my_wiki"
+                    - name: DB_SERVER
+                      value: "wiki-mariadb"
+                    - name: DB_TYPE
+                      value: "mysql"
+                    - name: WIKI_ADMIN_PASS
+                      value: "secretpass"
+                    - name: DB_PASS
+                      value: "xxxxxxx"
+                    - name: WG_SECRET_KEY
+                      value: xxxxxxx
+                    - name: WG_UPGRADE_KEY
+                      value: xxxxxxx
+
